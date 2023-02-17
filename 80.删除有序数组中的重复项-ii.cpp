@@ -2,7 +2,7 @@
  * @Author: jiazhuoGou goujz@qq.com
  * @Date: 2023-02-15 15:06:58
  * @LastEditors: jiazhuoGou goujz@qq.com
- * @LastEditTime: 2023-02-16 22:41:36
+ * @LastEditTime: 2023-02-17 14:20:49
  * @FilePath: \leetcode\80.删除有序数组中的重复项-ii.cpp
  * @Description: 这是默认设置,请设置`customMade`, 打开koroFileHeader查看配置 进行设置: https://github.com/OBKoro1/koro1FileHeader/wiki/%E9%85%8D%E7%BD%AE
  */
@@ -34,6 +34,11 @@ public:
         }
         return index;
     }
+
+    /**
+     * @brief 将上面代码的2改成其他数也可以实现
+     * 
+     */
 };
 // @lc code=end
 
