@@ -19,49 +19,70 @@ public:
  * @param nums 排列 
  */
     void nextPermutation(vector<int>& nums) {
-        // 从左往右找，找到一个不是降序的第一个数
-        int left = -1, right = 0;
-        int i = nums.size() - 2;
-        for ( ; i >= 0 && nums[i] >= nums[i+1]; i-- );
-        left = i;
-        if(left >= 0)
-        {// 说明找到这种升序,继续找比他的第一个数
-            int j = nums.size() - 1;
-            for( ; j >= 0 && nums[j] <= nums[left]; j--);
-            right = j;
-            swap(nums[left], nums[right]);
-        }
-        // 说明没找到
-        reverse(nums.begin() + left + 1,nums.end());
 
+// 高端写法
+        next_permutation(nums.begin(), nums.end());
+        /*
+        // 从右往左找到第一个打破升序的数
+        int i, j;
+        for (i = nums.size() - 2; i >= 0 && nums[i] >= nums[i+1]; --i);
+        if (i < 0)
+        { // 说明该回到最初的模样
+            sort(nums.begin(),nums.end());
+            return;
+        }
+
+        // 这一步肯定是找的到的，不用判断j合不合法
+        for (j = nums.size() - 1; nums[j] <= nums[i]; --j);
+        swap(nums, i, j);
+        reverse(nums, i + 1, nums.size() - 1);
+        */
     }
 
+    // 通用模板函数
+    template <typename vecIt>
+    bool next_permutation(vecIt first, vecIt last)
+    {
+        // 使用逆迭代器简化操作
+        const auto rfirst = reverse_iterator<vecIt>(last);
+        const auto rlast = reverse_iterator<vecIt>(first); // rlast是第一个元素更前的一个，不是有效的
 
-
-    int getCurInvNum(vector<int>& nums) 
-    {   // 求当前排列的逆序数
-        int cnt = 0;
-        for(int i  = 0; i < nums.size() - 1; i++)
-        {   // i是控制次数
-            for(int j = i + 1; j < nums.size(); j++)
-            {
-                if(nums[i] > nums[j])
-                {
-                    cnt++;
-                }
-            }
-        }
-        return cnt;
-    }
-
-    int getMaxInvNum(int length)
-    {   // 求这个数列的最大逆序数
-        if(length == 1)
+        // 找第一个从右往左打破升序的数
+        auto pivot = next(rfirst);
+        for ( ; pivot != rlast && *pivot >= *prev(pivot); ++pivot);
+        // 如果没找到这样的数，说明这个序列是最大的了，回到最初
+        if (pivot == rlast)
         {
-            return 0;
+            reverse(rfirst, rlast); // 传的是引用，这里改了原数组也改了
+            return false;
         }
-        return getMaxInvNum(length - 1) + length - 1;
-    }   
+
+        // 从右往左找第一个大于pivot的数
+        //auto change = find_if(rfirst, pivot, bind1st(less<int>(), *pivot)); // c++17已删除，改写下
+
+        swap(*change, *pivot);
+        reverse(rfirst, pivot);
+        return true;
+    }
+
+    void swap(vector<int> &nums, int i, int j)
+    {
+        int temp = nums[i];
+        nums[i] = nums[j];
+        nums[j] = temp; 
+    }
+
+    // 逆转下标i到j的数
+    void reverse(vector<int> &nums, int i, int j)
+    {
+        for ( ; i <= j; )
+        {
+            swap(nums, i, j);
+            i++;
+            j--;
+        }
+    }
+    
 };
 // @lc code=end
 
