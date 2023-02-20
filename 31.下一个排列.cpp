@@ -1,4 +1,12 @@
 /*
+ * @Author: jiazhuoGou goujz@qq.com
+ * @Date: 2023-02-15 15:07:35
+ * @LastEditors: jiazhuoGou goujz@qq.com
+ * @LastEditTime: 2023-02-20 21:23:41
+ * @FilePath: \leetcode\31.下一个排列.cpp
+ * @Description: 这是默认设置,请设置`customMade`, 打开koroFileHeader查看配置 进行设置: https://github.com/OBKoro1/koro1FileHeader/wiki/%E9%85%8D%E7%BD%AE
+ */
+/*
  * @lc app=leetcode.cn id=31 lang=cpp
  *
  * [31] 下一个排列
@@ -20,7 +28,7 @@ public:
  */
     void nextPermutation(vector<int>& nums) {
 
-// 高端写法
+        // 高端写法
         next_permutation(nums.begin(), nums.end());
         /*
         // 从右往左找到第一个打破升序的数
@@ -53,15 +61,20 @@ public:
         // 如果没找到这样的数，说明这个序列是最大的了，回到最初
         if (pivot == rlast)
         {
-            reverse(rfirst, rlast); // 传的是引用，这里改了原数组也改了
+            std::reverse(rfirst, rlast); // 传的是引用，这里改了原数组也改了
             return false;
         }
+        
 
         // 从右往左找第一个大于pivot的数
         //auto change = find_if(rfirst, pivot, bind1st(less<int>(), *pivot)); // c++17已删除，改写下
+        auto temp_itr = rfirst;
+        for ( ; *temp_itr <= *pivot; ++temp_itr);
+        auto change = temp_itr;
+        
 
-        swap(*change, *pivot);
-        reverse(rfirst, pivot);
+        std::swap(*change, *pivot);
+        std::reverse(rfirst, pivot);
         return true;
     }
 
