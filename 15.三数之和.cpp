@@ -20,7 +20,11 @@ public:
             return vec;
         }
         
-        sort(nums.begin(), nums.end());
+        //sort(nums.begin(), nums.end());
+        
+        vector<int> nums2 {-1,0,1,2,-1,-4};
+        quicksort(nums, 0, nums.size() - 1);
+
         for (int i = 0; i < nums.size(); ++i)
         {
             if(i > 0 && nums[i] == nums[i-1])
@@ -56,6 +60,32 @@ public:
     bool check(int a, int b, int c)
     {
         return ((a + b + c) == 0)?true:false; 
+    }
+
+    void quicksort(vector<int> &nums, int low, int high)
+    {
+        if (low < high)
+        {
+            int base = partition(nums, low, high);
+            quicksort(nums, low, base - 1);
+            quicksort(nums, base + 1, high);
+        }
+    }
+
+    int partition(vector<int> &nums, int low, int high)
+    {
+        int x = nums[low];
+        while (low < high)
+        {
+            while (low < high && nums[high] >= x)
+                high--;
+            nums[low] = nums[high];
+            while (low < high && nums[low] <= x)
+                low++;
+            nums[high] = nums[low];
+        }
+        nums[low] = x;
+        return low;
     }
 };
 // @lc code=end
