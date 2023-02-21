@@ -2,7 +2,7 @@
  * @Author: jiazhuoGou goujz@qq.com
  * @Date: 2023-02-15 15:07:35
  * @LastEditors: jiazhuoGou goujz@qq.com
- * @LastEditTime: 2023-02-20 21:23:41
+ * @LastEditTime: 2023-02-21 10:10:11
  * @FilePath: \leetcode\31.下一个排列.cpp
  * @Description: 这是默认设置,请设置`customMade`, 打开koroFileHeader查看配置 进行设置: https://github.com/OBKoro1/koro1FileHeader/wiki/%E9%85%8D%E7%BD%AE
  */
@@ -30,21 +30,9 @@ public:
 
         // 高端写法
         next_permutation(nums.begin(), nums.end());
-        /*
-        // 从右往左找到第一个打破升序的数
-        int i, j;
-        for (i = nums.size() - 2; i >= 0 && nums[i] >= nums[i+1]; --i);
-        if (i < 0)
-        { // 说明该回到最初的模样
-            sort(nums.begin(),nums.end());
-            return;
-        }
+        
 
-        // 这一步肯定是找的到的，不用判断j合不合法
-        for (j = nums.size() - 1; nums[j] <= nums[i]; --j);
-        swap(nums, i, j);
-        reverse(nums, i + 1, nums.size() - 1);
-        */
+        
     }
 
     // 通用模板函数
