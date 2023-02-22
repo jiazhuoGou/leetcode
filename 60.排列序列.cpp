@@ -2,7 +2,7 @@
  * @Author: jiazhuoGou goujz@qq.com
  * @Date: 2023-02-21 09:54:59
  * @LastEditors: jiazhuoGou goujz@qq.com
- * @LastEditTime: 2023-02-21 10:32:13
+ * @LastEditTime: 2023-02-22 14:59:50
  * @FilePath: \leetcode\60.排列序列.cpp
  * @Description: 这是默认设置,请设置`customMade`, 打开koroFileHeader查看配置 进行设置: https://github.com/OBKoro1/koro1FileHeader/wiki/%E9%85%8D%E7%BD%
  */
@@ -16,10 +16,10 @@
 class Solution {
 public:
     string getPermutation(int n, int k) {
-        string res(n, '0');
-        for (int i = 0; i < n; i++)
+        string s(n, '0');
+        for (int i = 0; i < n; ++i)
         {
-            res[i] += i + 1;
+            s[i] += i + 1;
         }
 
         /*
@@ -32,9 +32,38 @@ public:
         /*
             康托码
         */
-        
+        return kth_permutation(s, k);
+    }
 
+    int factorial(int n)
+    {
+        int res = 1;
+        for (int i = 1; i <= n; ++i)
+        {
+            res *= i;
+        }
+        return res;
+    }
 
+    // 一开始这个seq必须是第一个排列
+    template<typename Sequence>
+    Sequence kth_permutation(const Sequence &seq, int k)
+    {
+        const int n = seq.size();
+        Sequence S(seq);
+        Sequence res;
+
+        int base = factorial(n - 1);    // 第一个数是/(n-1)!
+        --k;    // 康托码是从0开始的
+        // base 是/的阶乘
+        for (int i = n - 1; i > 0; k %= base, base /= i, --i)
+        {
+            // 那么这一位就是倒数第quotient+1小的数, 一开始是从首位开始找的
+            auto num = std::next(S.begin(), k / base);
+            res.push_back(*num);
+            S.erase(num);
+        }
+        res.push_back(S[0]);
         return res;
     }
 
@@ -64,7 +93,6 @@ public:
         for ( ; *temp_itr <= *pivot; ++temp_itr);
         auto change = temp_itr;
         
-
         std::swap(*change, *pivot);
         std::reverse(rfirst, pivot);
         return true;
